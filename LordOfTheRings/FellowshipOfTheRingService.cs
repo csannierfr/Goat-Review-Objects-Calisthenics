@@ -2,43 +2,16 @@ namespace LordOfTheRings
 {
 	public class FellowshipOfTheRingService
 	{
-		private List<Character> members = new List<Character>();
+		readonly FellowshipOfTheRingMembers _fellowshipOfTheRingMembers = new FellowshipOfTheRingMembers();
 
 		public void AddMember(Character character)
 		{
-			bool exists = members.Any(member => member.Name == character.Name);
-
-			if (exists)
-			{
-				throw new InvalidOperationException(
-					"A character with the same name already exists in the fellowship.");
-			}
-			else
-			{
-				members.Add(character);
-			}
+			_fellowshipOfTheRingMembers.AddMember(character);
 		}
 
 		public void RemoveMember(string name)
 		{
-			Character characterToRemove = null;
-			foreach (var character in members)
-			{
-				if (character.Name == Name.Create(name))
-				{
-					characterToRemove = character;
-					break;
-				}
-			}
-
-			if (characterToRemove == null)
-			{
-				throw new InvalidOperationException($"No character with the name '{name}' exists in the fellowship.");
-			}
-			else
-			{
-				members.Remove(characterToRemove);
-			}
+			_fellowshipOfTheRingMembers.RemoveMember(name);
 		}
 
 		public void MoveMembersToRegion(List<Name> memberNames, string region)
@@ -93,7 +66,7 @@ namespace LordOfTheRings
 		public override string ToString()
 		{
 			var result = "Fellowship of the Ring Members:\n";
-			foreach (var member in members)
+			foreach (var member in _fellowshipOfTheRingMembers.Members())
 			{
 				result += $"{member.Name} ({member.Race}) with {member.Weapon.Name} in {member.Region}" + "\n";
 			}
