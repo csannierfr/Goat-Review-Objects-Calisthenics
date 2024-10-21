@@ -14,52 +14,41 @@ namespace LordOfTheRings
 			_fellowshipOfTheRingMembers.RemoveMember(name);
 		}
 
-		public void MoveMembersToRegion(List<Name> memberNames, string region)
+		public void MoveMembersToRegion(List<Name> memberNames, Region region)
 		{
 			foreach (var name in memberNames)
 			{
-				foreach (var character in members)
-				{
-					if (character.Name==name)
-					{
-						if (character.Region == "Mordor" && region != "Mordor")
-						{
-							throw new InvalidOperationException(
-								$"Cannot move {character.Name} from Mordor to {region}. Reason: There is no coming back from Mordor.");
-						}
-						else
-						{
-							character.Region = region;
-							if (region != "Mordor") Console.WriteLine($"{character.Name} moved to {region}.");
-							else Console.WriteLine($"{character.Name} moved to {region} 💀.");
-						}
-					}
-				}
+				MoveMemberToRegion(region, name);
 			}
 		}
 
-		public void PrintMembersInRegion(string region)
+		private void MoveMemberToRegion(Region region, Name name)
 		{
-			List<Character> charactersInRegion = new List<Character>();
-			foreach (var character in members)
-			{
-				if (character.Region == region)
-				{
-					charactersInRegion.Add(character);
-				}
-			}
+			var currentCharacter = _fellowshipOfTheRingMembers.FindMember(name);
 
-			if (charactersInRegion.Count > 0)
-			{
-				Console.WriteLine($"Members in {region}:");
-				foreach (var character in charactersInRegion)
-				{
-					Console.WriteLine($"{character.Name} ({character.Race}) with {character.Weapon.Name}");
-				}
-			}
-			else if (charactersInRegion.Count == 0)
+			if (currentCharacter is null)
+				return;
+
+			currentCharacter.MoveToRegion(region);
+
+			if (region != Region.Mordor) Console.WriteLine($"{currentCharacter.Name} moved to {region}.");
+			else Console.WriteLine($"{currentCharacter.Name} moved to {region} 💀.");
+		}
+
+		public void PrintMembersInRegion(Region region)
+		{
+			var charactersInRegion = _fellowshipOfTheRingMembers.MembersFromRegion(region).ToList();
+
+			if (!charactersInRegion.Any())
 			{
 				Console.WriteLine($"No members in {region}");
+				return;
+			}
+
+			Console.WriteLine($"Members in {region}:");
+			foreach (var character in charactersInRegion)
+			{
+				Console.WriteLine($"{character.Name} ({character.Race}) with {character.Weapon.Name}");
 			}
 		}
 

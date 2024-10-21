@@ -12,7 +12,7 @@ namespace LordOfTheRings
         public Name Name { get; set; }
         public Race Race { get; set; }
         public Weapon Weapon { get; set; }
-        public string Region { get; set; } = "Shire";
+        public Region Region { get; set; } = Region.Shire;
 
 
         public static Character Create(string name, string race, Weapon weapon)
@@ -31,7 +31,5 @@ namespace LordOfTheRings
 
             this.Region = region;
         }
-        
-        
     }
 }

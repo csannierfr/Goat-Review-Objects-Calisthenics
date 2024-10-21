@@ -50,4 +50,9 @@ public class FellowshipOfTheRingMembers
 	}
 
 	public IEnumerable<Character> Members() => members;
+
+	public IEnumerable<Character> MembersFromRegion(Region region)
+	{
+		return members.Where(p => p.Region == region);
+	}
 }
