@@ -10,23 +10,23 @@ namespace LordOfTheRings
             {
                 throw new ArgumentNullException(nameof(character), "Character cannot be null.");
             }
-            else if (string.IsNullOrWhiteSpace(character.N))
+            else if (string.IsNullOrWhiteSpace(character.Name))
             {
                 throw new ArgumentException("Character must have a name.");
             }
-            else if (string.IsNullOrWhiteSpace(character.R))
+            else if (string.IsNullOrWhiteSpace(character.Race))
             {
                 throw new ArgumentException("Character must have a race.");
             }
-            else if (character.W == null)
+            else if (character.Weapon == null)
             {
                 throw new ArgumentException("Character must have a weapon.");
             }
-            else if (string.IsNullOrWhiteSpace(character.W.Name))
+            else if (string.IsNullOrWhiteSpace(character.Weapon.Name))
             {
                 throw new ArgumentException("A weapon must have a name.");
             }
-            else if (character.W.Damage <= 0)
+            else if (character.Weapon.Damage <= 0)
             {
                 throw new ArgumentException("A weapon must have a damage level.");
             }
@@ -35,7 +35,7 @@ namespace LordOfTheRings
                 bool exists = false;
                 foreach (var member in members)
                 {
-                    if (member.N == character.N)
+                    if (member.Name == character.Name)
                     {
                         exists = true;
                         break;
@@ -58,9 +58,9 @@ namespace LordOfTheRings
         {
             foreach (var character in members)
             {
-                if (character.N == name)
+                if (character.Name == name)
                 {
-                    character.W = new Weapon
+                    character.Weapon = new Weapon
                     {
                         Name = newWeapon,
                         Damage = damage
@@ -75,7 +75,7 @@ namespace LordOfTheRings
             Character characterToRemove = null;
             foreach (var character in members)
             {
-                if (character.N == name)
+                if (character.Name == name)
                 {
                     characterToRemove = character;
                     break;
@@ -98,18 +98,18 @@ namespace LordOfTheRings
             {
                 foreach (var character in members)
                 {
-                    if (character.N == name)
+                    if (character.Name == name)
                     {
-                        if (character.C == "Mordor" && region != "Mordor")
+                        if (character.Region == "Mordor" && region != "Mordor")
                         {
                             throw new InvalidOperationException(
-                                $"Cannot move {character.N} from Mordor to {region}. Reason: There is no coming back from Mordor.");
+                                $"Cannot move {character.Name} from Mordor to {region}. Reason: There is no coming back from Mordor.");
                         }
                         else
                         {
-                            character.C = region;
-                            if (region != "Mordor") Console.WriteLine($"{character.N} moved to {region}.");
-                            else Console.WriteLine($"{character.N} moved to {region} 💀.");
+                            character.Region = region;
+                            if (region != "Mordor") Console.WriteLine($"{character.Name} moved to {region}.");
+                            else Console.WriteLine($"{character.Name} moved to {region} 💀.");
                         }
                     }
                 }
@@ -121,7 +121,7 @@ namespace LordOfTheRings
             List<Character> charactersInRegion = new List<Character>();
             foreach (var character in members)
             {
-                if (character.C == region)
+                if (character.Region == region)
                 {
                     charactersInRegion.Add(character);
                 }
@@ -132,7 +132,7 @@ namespace LordOfTheRings
                 Console.WriteLine($"Members in {region}:");
                 foreach (var character in charactersInRegion)
                 {
-                    Console.WriteLine($"{character.N} ({character.R}) with {character.W.Name}");
+                    Console.WriteLine($"{character.Name} ({character.Race}) with {character.Weapon.Name}");
                 }
             }
             else if (charactersInRegion.Count == 0)
@@ -146,7 +146,7 @@ namespace LordOfTheRings
             var result = "Fellowship of the Ring Members:\n";
             foreach (var member in members)
             {
-                result += $"{member.N} ({member.R}) with {member.W.Name} in {member.C}" + "\n";
+                result += $"{member.Name} ({member.Race}) with {member.Weapon.Name} in {member.Region}" + "\n";
             }
 
             return result;
