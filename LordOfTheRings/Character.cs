@@ -2,7 +2,7 @@ namespace LordOfTheRings
 {
     public sealed class Character
     {
-        private Character(Name name, string race, Weapon weapon)
+        private Character(Name name, Race race, Weapon weapon)
         {
             Name = name;
             Race = race;
@@ -10,39 +10,26 @@ namespace LordOfTheRings
         }
 
         public Name Name { get; set; }
-        public string Race { get; set; }
+        public Race Race { get; set; }
         public Weapon Weapon { get; set; }
         public string Region { get; set; } = "Shire";
 
 
         public static Character Create(string name, string race, Weapon weapon)
         {
-            
-            if (string.IsNullOrWhiteSpace(name))
+            return new Character(Name.Create(name), Race.Create(race), weapon);
+        }
+
+
+        public void MoveToRegion(Region region)
+        {
+            if (this.Region == Region.Mordor && region != Region.Mordor)
             {
-                throw new ArgumentException("Character must have a name.");
+                throw new InvalidOperationException(
+                    $"Cannot move {this.Name} from Mordor to {region}. Reason: There is no coming back from Mordor.");
             }
 
-            if (string.IsNullOrWhiteSpace(race))
-            {
-                throw new ArgumentException("Character must have a race.");
-            }
-
-            if (weapon == null)
-            {
-                throw new ArgumentException("Character must have a weapon.");
-            }
-
-            if (string.IsNullOrWhiteSpace(weapon.Name))
-            {
-                throw new ArgumentException("A weapon must have a name.");
-            }
-            if (weapon.Damage <= 0)
-            {
-                throw new ArgumentException("A weapon must have a damage level.");
-            }
-
-            return new Character(LordOfTheRings.Name.Create(name), race, weapon);
+            this.Region = region;
         }
         
         

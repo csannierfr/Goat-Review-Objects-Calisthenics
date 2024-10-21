@@ -41,13 +41,13 @@ namespace LordOfTheRings
 			}
 		}
 
-		public void MoveMembersToRegion(List<string> memberNames, string region)
+		public void MoveMembersToRegion(List<Name> memberNames, string region)
 		{
 			foreach (var name in memberNames)
 			{
 				foreach (var character in members)
 				{
-					if (character.Name==Name.Create(name))
+					if (character.Name==name)
 					{
 						if (character.Region == "Mordor" && region != "Mordor")
 						{
