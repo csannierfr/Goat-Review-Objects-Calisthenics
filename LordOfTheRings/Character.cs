@@ -2,14 +2,14 @@ namespace LordOfTheRings
 {
     public sealed class Character
     {
-        private Character(string name, string race, Weapon weapon)
+        private Character(Name name, string race, Weapon weapon)
         {
             Name = name;
             Race = race;
             Weapon = weapon;
         }
 
-        public string Name { get; set; }
+        public Name Name { get; set; }
         public string Race { get; set; }
         public Weapon Weapon { get; set; }
         public string Region { get; set; } = "Shire";
@@ -42,7 +42,7 @@ namespace LordOfTheRings
                 throw new ArgumentException("A weapon must have a damage level.");
             }
 
-            return new Character(name, race, weapon);
+            return new Character(LordOfTheRings.Name.Create(name), race, weapon);
         }
         
         

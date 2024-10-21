@@ -6,15 +6,7 @@ namespace LordOfTheRings
 
 		public void AddMember(Character character)
 		{
-			bool exists = false;
-			foreach (var member in members)
-			{
-				if (member.Name == character.Name)
-				{
-					exists = true;
-					break;
-				}
-			}
+			bool exists = members.Any(member => member.Name == character.Name);
 
 			if (exists)
 			{
@@ -27,28 +19,12 @@ namespace LordOfTheRings
 			}
 		}
 
-		public void UpdateCharacterWeapon(string name, string newWeapon, int damage)
-		{
-			foreach (var character in members)
-			{
-				if (character.Name == name)
-				{
-					character.Weapon = new Weapon
-					{
-						Name = newWeapon,
-						Damage = damage
-					};
-					break;
-				}
-			}
-		}
-
 		public void RemoveMember(string name)
 		{
 			Character characterToRemove = null;
 			foreach (var character in members)
 			{
-				if (character.Name == name)
+				if (character.Name == Name.Create(name))
 				{
 					characterToRemove = character;
 					break;
@@ -71,7 +47,7 @@ namespace LordOfTheRings
 			{
 				foreach (var character in members)
 				{
-					if (character.Name == name)
+					if (character.Name==Name.Create(name))
 					{
 						if (character.Region == "Mordor" && region != "Mordor")
 						{
